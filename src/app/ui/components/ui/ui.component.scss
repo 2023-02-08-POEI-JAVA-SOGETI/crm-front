@@ -1,0 +1,24 @@
+.ui {
+  height: 100vh;
+}
+
+.content {
+  background: var(--app-light);
+}
+
+header {
+  background: var(--app-darklight);
+}
+
+main aside {
+  background: var(--app-dark);
+}
+
+nav {
+  width: 200px;
+  color: var(--app-light);
+}
+
+footer {
+  background: var(--app-darklight2);
+}
