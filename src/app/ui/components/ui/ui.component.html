@@ -1,24 +1,20 @@
 <div class="d-flex flex-column ui">
   <header>
-    <h1>HEADER</h1>
+    <ng-content select=".tr-header"></ng-content>
   </header>
-
   <main class="d-flex flex-grow-1">
     <aside>
       <nav>
-        NAV
+        <ng-content select=".tr-nav"></ng-content>
       </nav>
     </aside>
-
     <div class="d-flex flex-column flex-grow-1">
       <div class="flex-grow-1 content">
         CONTENT
       </div>
-
       <footer>
-        FOOTER
+        <ng-content select=".tr-footer"></ng-content>
       </footer>
     </div>
-
   </main>
 </div>
