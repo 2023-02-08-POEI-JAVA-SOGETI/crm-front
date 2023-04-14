@@ -1,0 +1,6 @@
+a {
+  color: var(--app-light);
+  &:hover {
+    color: var(--app-primary);
+  }
+}
