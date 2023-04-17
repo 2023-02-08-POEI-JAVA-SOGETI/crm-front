@@ -1,3 +1,8 @@
+.active {
+  background: white;
+  color: var(--app-primary);
+}
+
 a {
   color: var(--app-light);
   &:hover {
