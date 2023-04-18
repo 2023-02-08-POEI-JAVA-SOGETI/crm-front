@@ -10,5 +10,10 @@ export class TemplateFullWidthComponent {
 
   constructor() {
     this.title = 'Le titre est ici';
+    // console.log(this.title);
   }
+
+  // ngOnChanges(): void {
+  //   console.log(this.title);
+  // }
 }
