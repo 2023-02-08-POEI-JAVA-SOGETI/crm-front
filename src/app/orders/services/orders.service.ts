@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { StateOrder } from '../enums/state-order';
 import { Order } from '../models/order';
 
 @Injectable({
@@ -14,4 +15,19 @@ export class OrdersService {
 
     this.collection$ = this.httpClient.get<Order[]>(this.urlApi);
   }
+
+  public changeState(order: Order, state: StateOrder): Observable<Order> {
+    const obj = new Order(order);
+    obj.state = state;
+    return this.update(obj);
+  }
+
+  public update(order: Order): Observable<Order> {
+    return this.httpClient.put<Order>(`${this.urlApi}/${order.id}`, order);
+  }
+
+  public add(order: Order): Observable<Order> {
+    return this.httpClient.post<Order>(this.urlApi, order);
+  }
+
 }
