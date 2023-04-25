@@ -30,4 +30,7 @@ export class OrdersService {
     return this.httpClient.post<Order>(this.urlApi, order);
   }
 
+  public getOrderById(id: number): Observable<Order> {
+    return this.httpClient.get<Order>(`${this.urlApi}/${id}`);
+  }
 }
