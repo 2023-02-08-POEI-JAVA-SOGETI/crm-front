@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { StateOrder } from '../enums/state-order';
 import { Order } from '../models/order';
 
@@ -9,11 +9,18 @@ import { Order } from '../models/order';
 })
 export class OrdersService {
   private urlApi: string;
-  public collection$: Observable<Order[]>;
+  public collection$: BehaviorSubject<Order[]>;
   constructor(private httpClient: HttpClient) {
     this.urlApi = 'http://localhost:3000/orders';
+    this.collection$ = new BehaviorSubject<Order[]>([]);
 
-    this.collection$ = this.httpClient.get<Order[]>(this.urlApi);
+    this.refreshCollection();
+  }
+
+  public refreshCollection(): void {
+    this.httpClient.get<Order[]>(this.urlApi).subscribe((data) => {
+      this.collection$.next(data);
+    });
   }
 
   public changeState(order: Order, state: StateOrder): Observable<Order> {
@@ -23,14 +30,30 @@ export class OrdersService {
   }
 
   public update(order: Order): Observable<Order> {
-    return this.httpClient.put<Order>(`${this.urlApi}/${order.id}`, order);
+    return this.httpClient.put<Order>(`${this.urlApi}/${order.id}`, order).pipe(
+      tap(() => {
+        this.refreshCollection();
+      })
+    );
   }
 
   public add(order: Order): Observable<Order> {
-    return this.httpClient.post<Order>(this.urlApi, order);
+    return this.httpClient.post<Order>(this.urlApi, order).pipe(
+      tap(() => {
+        this.refreshCollection();
+      })
+    );
   }
 
   public getOrderById(id: number): Observable<Order> {
     return this.httpClient.get<Order>(`${this.urlApi}/${id}`);
+  }
+
+  public delete(id: number): Observable<Order> {
+    return this.httpClient.delete<Order>(`${this.urlApi}/${id}`).pipe(
+      tap(() => {
+        this.refreshCollection();
+      })
+    );
   }
 }
